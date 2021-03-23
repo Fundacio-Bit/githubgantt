@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- FITXER AUTOGENERAT -->
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
+             http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd"
+             version="2.2">
+    <persistence-unit name="githubganttPU" transaction-type="JTA">
+        <provider>org.fundaciobit.githubgantt.hibernate.CustomHibernatePersistenceProvider</provider>
+        <jta-data-source>java:jboss/datasources/githubganttDS</jta-data-source>
+        
+		<class>org.fundaciobit.githubgantt.persistence.AccountJPA</class>
+		<class>org.fundaciobit.githubgantt.persistence.FitxerJPA</class>
+		<class>org.fundaciobit.githubgantt.persistence.GanttJPA</class>
+		<class>org.fundaciobit.githubgantt.persistence.IdiomaJPA</class>
+		<class>org.fundaciobit.githubgantt.persistence.TraduccioJPA</class>
+		<class>org.fundaciobit.githubgantt.persistence.TraduccioMapJPA</class>
+
+        <!-- Activar cache només per aquelles entitats on volguem expressament -->
+        <shared-cache-mode>ENABLE_SELECTIVE</shared-cache-mode>
+        <!-- Sempre activar la validació de les propietats -->
+        <validation-mode>CALLBACK</validation-mode>
+
+    </persistence-unit>
+</persistence>

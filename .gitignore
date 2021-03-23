@@ -21,3 +21,19 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+/githubgantt-back/.settings
+/githubgantt-commons/.settings
+/githubgantt-ejb/.settings
+/githubgantt-model/.settings
+/githubgantt-persistence/.settings
+/githubgantt-back/.classpath
+/githubgantt-back/.project
+/githubgantt-commons/.classpath
+/githubgantt-commons/.project
+/githubgantt-ejb/.classpath
+/githubgantt-ejb/.project
+/githubgantt-model/.classpath
+/githubgantt-model/.project
+/githubgantt-persistence/.classpath
+/githubgantt-persistence/.project
+/rungenapp/lastconfig.properties
