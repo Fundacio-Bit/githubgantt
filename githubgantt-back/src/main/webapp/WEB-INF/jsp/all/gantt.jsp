@@ -156,7 +156,7 @@ gantt.attachEvent("onTaskClick", function(id,e){
     	 return true;
     }
     
-    if (e.toElement.className == 'gantt_task_content') {
+    if (e.toElement && e.toElement.className == 'gantt_task_content') {
       var win = window.open("${urlBase}/${organization}/${repository}/issues/" + id, '_blank');
     }
     return true;
