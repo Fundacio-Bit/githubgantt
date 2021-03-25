@@ -130,14 +130,6 @@ public class GanttItem implements Comparable<GanttItem>{
         this.dependency = dependency;
     }
 
-    public String getDependencyGantt() {
-        if (this.dependency == null) {
-            return "null";
-        } else {
-            // TODO
-            return "'" + this.dependency + "'";
-        }
-    }
 
     public boolean isCaib() {
         return caib;
@@ -163,8 +155,14 @@ public class GanttItem implements Comparable<GanttItem>{
         this.fills = fills;
     }
 
-    public void addFill(GanttItem taskID) {
-        this.fills.add(taskID);
+    public void addFill(GanttItem task) {
+        
+        if (task.getTaskID() == this.taskID) {
+            new Exception("S'esta afegint el fill " + this.taskID +  " al pare " + task.getTaskID());
+        } else {
+            this.fills.add(task);    
+        }
+        
     }
 
     public String getColor() {
@@ -183,6 +181,17 @@ public class GanttItem implements Comparable<GanttItem>{
     public int compareTo(GanttItem gi) {
         
         System.out.println("Compare #" + this.getTaskID() + " with #" + gi.getTaskID());
+        
+        /*
+        if (this.getTaskID() == 0) {
+            return 1;
+        }
+        if (gi.getTaskID() == 0) {
+            return -1;
+        }
+        */
+        
+        
         
         if (this.isClosed()) {
             if (!gi.isClosed()) {

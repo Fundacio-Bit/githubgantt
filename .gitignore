@@ -37,3 +37,16 @@ hs_err_pid*
 /githubgantt-persistence/.classpath
 /githubgantt-persistence/.project
 /rungenapp/lastconfig.properties
+/githubgantt-back/src/main/resources/genapp_ca.properties
+/githubgantt-back/src/main/resources/genapp_en.properties
+/githubgantt-back/src/main/resources/genapp_es.properties
+/githubgantt-back/src/main/resources/githubgantt_genapp_ca.properties
+/githubgantt-back/src/main/resources/githubgantt_genapp_es.properties
+/githubgantt-back/src/main/resources/logicmissatges_ca.properties
+/githubgantt-back/src/main/resources/logicmissatges_en.properties
+/githubgantt-back/src/main/resources/logicmissatges_es.properties
+/githubgantt-commons/target
+/githubgantt-ear/target
+/githubgantt-ejb/target
+/githubgantt-model/target
+/githubgantt-persistence/target
