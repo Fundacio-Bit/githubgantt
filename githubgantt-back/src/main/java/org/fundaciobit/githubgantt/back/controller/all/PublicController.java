@@ -91,7 +91,7 @@ public class PublicController {
        
        
        
-       return "redirect:https://github.com/GovernIB/" + gantt.getRepository() + "/projects/" + project.getNumber();
+       return "redirect:https://github.com/" + gantt.getOrganization() + "/" + gantt.getRepository() + "/projects/" + project.getNumber();
     
     }
     
