@@ -581,6 +581,10 @@ public class GitHubGantt {
         
         
         
+
+
+        
+        
         
 
         Map<String, Object> parameters = new HashMap<String, Object>();
@@ -652,7 +656,7 @@ public class GitHubGantt {
                 log.info("MAP: " + map.get(gi.getDependency()));
 
                 if (map.get(gi.getDependency()) == null) {
-                    errors.add(encodeHtml("La tasca " + gi.getTaskID() + "  depen de una tasca (" + gi.getDependency()
+                    errors.add(encodeHtml("La tasca " + gi.getTaskID() + "  depen d'una tasca (" + gi.getDependency()
                             + ") que no existeix dins del projecte'")
                             + "<a target=\"_blank\" href=\"https://github.com/" + organization + "/" + repository
                             + "/issues/" + gi.getTaskID() + "\"> #" + gi.getTaskID()
@@ -660,8 +664,22 @@ public class GitHubGantt {
                             + "/issues/" + gi.getDependency() + "\"> #" + gi.getDependency() + "</a> ");
                     continue;
                 } else {
-
-                    map.get(gi.getDependency()).addFill(gi);
+                    
+                    GanttItem parent =map.get(gi.getDependency()); 
+                    
+                    
+                    if (parent.isCaib() || parent.isEpic()) {
+                       parent.addFill(gi);
+                    } else {
+                        // Totes les dependency han de ser CAIB o EPIC
+                        errors.add(encodeHtml("La tasca " + gi.getTaskID() + " depèn d'una tasca (" + gi.getDependency()
+                        + ") que no és ni EPIC ni CAIB'")
+                        + "<a target=\"_blank\" href=\"https://github.com/" + organization + "/" + repository
+                        + "/issues/" + gi.getTaskID() + "\"> #" + gi.getTaskID()
+                        + "</a> - <a target=\"_blank\" href=\"https://github.com/" + organization + "/" + repository
+                        + "/issues/" + gi.getDependency() + "\"> #" + gi.getDependency() + "</a> ");
+                    }
+                    
                 }
             }
 
@@ -703,7 +721,9 @@ public class GitHubGantt {
 
                 if (parent.isCaib() && parent.getFills().size() == 0) {
                     warnings.add(
-                            encodeHtml("La tasca " + caibID + ", que és de tipus CAIB, no té cap subtasca associada"));
+                            encodeHtml("La tasca " + caibID + ", que és de tipus CAIB, no té cap subtasca associada") 
+                            +  "</a> - <a target=\"_blank\" href=\"https://github.com/" + organization + "/" + repository
+                            + "/issues/" + caibID + "\"> #" +caibID + "</a> ");
                 }
 
                 // Map<Integer, GanttItem> map, Calendar currentDate
