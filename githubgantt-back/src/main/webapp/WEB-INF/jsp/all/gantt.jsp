@@ -71,7 +71,8 @@ gantt.config.autosize = "xy";
 
 
 
-gantt.config.min_column_width = 50;
+gantt.config.min_column_width = 75;
+
 
 gantt.plugins({         tooltip: true     }); 
 
@@ -84,8 +85,9 @@ gantt.config.columns=[
 
 //gantt.config.start_date = new Date(2019, 7, 1);
 var holidays = [//USA, DC holidays
-		new Date(2019, 0, 1),
-		new Date(2019, 0, 21),
+		new Date(2021, 4, 1),
+		new Date(2021, 4, 2)
+		/*,
 		new Date(2019, 3, 16),
 		new Date(2019, 4, 12),
 		new Date(2019, 4, 27),
@@ -94,7 +96,7 @@ var holidays = [//USA, DC holidays
 		new Date(2019, 7, 2),
 		new Date(2019, 7, 6),
 		new Date(2019, 10 , 6),
-		new Date(2020, 10, 5)
+		new Date(2020, 10, 5) */
 	];
 
 	for (var i = 0; i < holidays.length; i++) {
