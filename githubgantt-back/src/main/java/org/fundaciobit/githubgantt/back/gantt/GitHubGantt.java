@@ -515,6 +515,19 @@ public class GitHubGantt {
                     }
                 }
             }
+            
+            
+            if (isCAIB  && dependency != null) {
+                errors.add(encodeHtml("La tasca " + i.getNumber() + " te marcat CAIB  i depèn d'una altre tasca " + dependency)
+                        + "<a target=\"_blank\" href=\"https://github.com/" + organization + "/"
+                        + repository + "/issues/" + i.getNumber() + "\"> #" + i.getNumber() + "</a> - " 
+                        + "<a target=\"_blank\" href=\"https://github.com/" + organization + "/"
+                        + repository + "/issues/" + dependency + "\"> #" + dependency + "</a> - ");
+                continue;
+            }
+
+            
+            
 
             if (isCAIB && isEPIC) {
                 errors.add(encodeHtml("La tasca " + i.getNumber() + " te marcat CAIB i EPIC alhora !!!")
@@ -527,13 +540,14 @@ public class GitHubGantt {
             }
 
             if ((isCAIB || isEPIC) && expectedTime != null) {
-                warnings.add(encodeHtml("La tasca " + i.getNumber() + " te marcat CAIB o EPIC i no pot tenir definida "
+                errors.add(encodeHtml("La tasca " + i.getNumber() + " te marcat CAIB o EPIC i no pot tenir definida "
                         + " cap estimació !!!") + "<a target=\"_blank\" href=\"https://github.com/" + organization + "/"
                         + repository + "/issues/" + i.getNumber() + "\"> #" + i.getNumber() + "</a> - "
                         + (i.getAssignees().isEmpty() ? "" : i.getAssignees().get(0).getLogin()));
                 continue;
             }
-
+            
+            
             if (!isCAIB && !isEPIC && expectedTime == null) {
                 warnings.add(encodeHtml("La tasca " + i.getNumber()
                         + " necessita una estimació definida en Dies. Per defecte  li assignam 1 dia.")
@@ -551,6 +565,9 @@ public class GitHubGantt {
                         + (i.getAssignees().isEmpty() ? "" : i.getAssignees().get(0).getLogin()));
                 continue;
             }
+            
+            
+           
 
             int taskID = i.getNumber();
             String taskName = i.getTitle();
@@ -857,11 +874,16 @@ public class GitHubGantt {
                     percentCompletat = percentCompletat + fill.getPercentCompleted();
 
                     log.info("fill.getDuration() => " + fill.getDuration());
-                    if (fill.getDuration() == null) {
-                        System.err.println("La tasca amb ID " + fill.getTaskID() + " no te duracio definida");
-                    }
+                    
                     if (!fill.isClosed()) {
-                        currentDate.add(Calendar.HOUR, (int) (long) (fill.getDuration() / (float) programadors));
+                        
+                        
+                        if (fill.getDuration() == null) {
+                            System.err.println("La tasca amb ID " + fill.getTaskID() + " no te duracio definida");
+                            currentDate.add(Calendar.HOUR, (int) (long) (ESTIMACIO_1D / (float) programadors));
+                        } else {
+                            currentDate.add(Calendar.HOUR, (int) (long) (fill.getDuration() / (float) programadors));
+                        }
 
                     }
                 }
