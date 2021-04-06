@@ -543,7 +543,7 @@ public class GitHubGantt {
                 continue;
             }
 
-            if (!isCAIB && dependency == null) {
+            if ((!isCAIB && !isEPIC) && dependency == null) {
                 errors.add(encodeHtml("La tasca " + i.getNumber() + " no depen de cap Issue. "
                         + "Sinó depèn de cap issue ha d´incloure el text \"Depèn de PROJECT\". Si depen d'un issue EPIC o CAIB llavors ha d´incloure el text 'Depèn de [text_issue] #[num issue]'")
                         + "<a target=\"_blank\" href=\"https://github.com/" + organization + "/" + repository
