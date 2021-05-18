@@ -9,36 +9,33 @@ import org.fundaciobit.githubgantt.model.entity.Account;
 import org.fundaciobit.githubgantt.persistence.AccountJPA;
 import org.fundaciobit.githubgantt.persistence.AccountJPAManager;
 
-import org.fundaciobit.githubgantt.utils.Constants;
+import org.fundaciobit.githubgantt.commons.utils.Constants;
 
 @Stateless
 public class AccountEJB extends AccountJPAManager implements AccountService {
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-	public void delete(Account instance) {
-		super.delete(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void delete(Account instance) {
+        super.delete(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,Constants.GHG_USER})
-	public Account create(Account instance) throws I18NException {
-		return super.create(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public Account create(Account instance) throws I18NException {
+        return super.create(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-	public Account update(Account instance) throws I18NException {
-		 return super.update(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public Account update(Account instance) throws I18NException {
+         return super.update(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-  public AccountJPA findByPrimaryKey(Long _ID_) {
-    return (AccountJPA)super.findByPrimaryKey(_ID_);
-  }
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public AccountJPA findByPrimaryKey(Long _ID_) {
+        return (AccountJPA)super.findByPrimaryKey(_ID_);
+    }
 
 }

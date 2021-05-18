@@ -11,7 +11,7 @@ import org.fundaciobit.githubgantt.model.dao.IAccountManager;
 @Local
 public interface AccountService extends AccountIJPAManager,IAccountManager {
 
- public static final String JNDI_NAME = "java:app/githubgantt-ejb/AccountEJB!org.fundaciobit.githubgantt.ejb.AccountService";
+    public static final String JNDI_NAME = "java:app/githubgantt-ejb/AccountEJB!org.fundaciobit.githubgantt.ejb.AccountService";
 
     public AccountJPA findByPrimaryKey(Long _ID_);
 }

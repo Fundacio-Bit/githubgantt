@@ -11,7 +11,7 @@ import org.apache.tiles.AttributeContext;
 import org.apache.tiles.preparer.PreparerException;
 import org.apache.tiles.preparer.ViewPreparer;
 import org.apache.tiles.request.Request;
-import org.fundaciobit.githubgantt.utils.Version;
+import org.fundaciobit.githubgantt.commons.utils.Version;
 import org.springframework.stereotype.Component;
 
 

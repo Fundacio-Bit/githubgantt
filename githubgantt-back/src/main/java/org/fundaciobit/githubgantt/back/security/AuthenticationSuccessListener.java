@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Component;
 
-import org.fundaciobit.githubgantt.utils.Constants;
+import org.fundaciobit.githubgantt.commons.utils.Constants;
 
 /**
  * 

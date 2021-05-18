@@ -21,7 +21,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import org.fundaciobit.githubgantt.back.security.LoginInfo;
 
-import org.fundaciobit.githubgantt.utils.Constants;
+import org.fundaciobit.githubgantt.commons.utils.Constants;
 
 /**
  * @author anadal

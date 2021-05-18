@@ -9,36 +9,33 @@ import org.fundaciobit.githubgantt.model.entity.Idioma;
 import org.fundaciobit.githubgantt.persistence.IdiomaJPA;
 import org.fundaciobit.githubgantt.persistence.IdiomaJPAManager;
 
-import org.fundaciobit.githubgantt.utils.Constants;
+import org.fundaciobit.githubgantt.commons.utils.Constants;
 
 @Stateless
 public class IdiomaEJB extends IdiomaJPAManager implements IdiomaService {
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-	public void delete(Idioma instance) {
-		super.delete(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void delete(Idioma instance) {
+        super.delete(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,Constants.GHG_USER})
-	public Idioma create(Idioma instance) throws I18NException {
-		return super.create(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public Idioma create(Idioma instance) throws I18NException {
+        return super.create(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-	public Idioma update(Idioma instance) throws I18NException {
-		 return super.update(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public Idioma update(Idioma instance) throws I18NException {
+         return super.update(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-  public IdiomaJPA findByPrimaryKey(String _ID_) {
-    return (IdiomaJPA)super.findByPrimaryKey(_ID_);
-  }
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public IdiomaJPA findByPrimaryKey(String _ID_) {
+        return (IdiomaJPA)super.findByPrimaryKey(_ID_);
+    }
 
 }

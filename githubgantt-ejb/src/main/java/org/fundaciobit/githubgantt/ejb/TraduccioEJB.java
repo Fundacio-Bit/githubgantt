@@ -9,36 +9,33 @@ import org.fundaciobit.githubgantt.model.entity.Traduccio;
 import org.fundaciobit.githubgantt.persistence.TraduccioJPA;
 import org.fundaciobit.githubgantt.persistence.TraduccioJPAManager;
 
-import org.fundaciobit.githubgantt.utils.Constants;
+import org.fundaciobit.githubgantt.commons.utils.Constants;
 
 @Stateless
 public class TraduccioEJB extends TraduccioJPAManager implements TraduccioService {
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-	public void delete(Traduccio instance) {
-		super.delete(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public void delete(Traduccio instance) {
+        super.delete(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,Constants.GHG_USER})
-	public Traduccio create(Traduccio instance) throws I18NException {
-		return super.create(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public Traduccio create(Traduccio instance) throws I18NException {
+        return super.create(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-	public Traduccio update(Traduccio instance) throws I18NException {
-		 return super.update(instance);
-	}
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public Traduccio update(Traduccio instance) throws I18NException {
+         return super.update(instance);
+    }
 
-  @Override
-	@RolesAllowed({Constants.GHG_ADMIN,
-        Constants.GHG_USER})
-  public TraduccioJPA findByPrimaryKey(Long _ID_) {
-    return (TraduccioJPA)super.findByPrimaryKey(_ID_);
-  }
+    @Override
+    @RolesAllowed({Constants.ROLE_EJB_FULL_ACCESS, Constants.ROLE_EJB_BASIC_ACCESS})
+    public TraduccioJPA findByPrimaryKey(Long _ID_) {
+        return (TraduccioJPA)super.findByPrimaryKey(_ID_);
+    }
 
 }

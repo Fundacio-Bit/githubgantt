@@ -87,6 +87,15 @@
         <put-attribute name="pipella" value="admin" />
     </definition>
     
+    <definition name="ganttFormAdmin" extends="admin">
+        <put-attribute name="titol" value="gantt.gantt" />
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/ganttForm.jsp" />
+    </definition>
+    
+    <definition name="ganttListAdmin" extends="admin">
+        <put-attribute name="contingut" value="/WEB-INF/jsp/webdb/ganttList.jsp" />
+    </definition>
+    
     <definition name="option1Admin" extends="admin">
         <put-attribute name="contingut" value="/WEB-INF/jsp/admin/admin.jsp" />
     </definition>

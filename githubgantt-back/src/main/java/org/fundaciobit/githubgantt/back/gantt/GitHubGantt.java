@@ -19,6 +19,7 @@ import java.util.TreeSet;
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.log4j.Logger;
 import org.fundaciobit.genapp.common.KeyValue;
+import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.kohsuke.github.GHIssue;
 import org.kohsuke.github.GHIssueSearchBuilder;
 import org.kohsuke.github.GHIssueState;
@@ -60,15 +61,20 @@ public class GitHubGantt {
 
     protected final Map<String, GHOrganization> myOrganizations;
 
-    public GitHubGantt(String username, String token) throws Exception {
+    public GitHubGantt(String username, String token) throws I18NException {
         super();
         this.username = username;
         this.token = token;
-        this.githubConnection = new GitHubBuilder()
+        try {
+            this.githubConnection = new GitHubBuilder()
                 // .withPassword("anadal-fundaciobit", "").build();
                 .withOAuthToken(token, username).build();
-
-        myOrganizations = githubConnection.getMyOrganizations();
+            myOrganizations = githubConnection.getMyOrganizations();    
+        } catch (Exception e) {
+            String msg = "Error instanciant GitHubGantt: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
+        }
     }
 
     public void printOrganizationsRepositoriesProjectsOfUser() throws IOException {
@@ -95,26 +101,44 @@ public class GitHubGantt {
         return new TreeSet<String>(this.myOrganizations.keySet());
     }
 
-    public Set<String> getRepositories(String organization) throws Exception {
-        return new TreeSet<String>(this.myOrganizations.get(organization).getRepositories().keySet());
-    }
-
-    public GHProject getProject(String organization, String repository, long projectID) throws Exception {
-        return githubConnection.getProject(projectID);
-    }
-
-    public Map<Long, String> getProjects(String organization, String repository) throws Exception {
-        GHRepository repos = this.myOrganizations.get(organization).getRepositories().get(repository);
-        PagedIterable<GHProject> projectsPI = repos.listProjects();
-
-        List<GHProject> projects = projectsPI.toList();
-
-        Map<Long, String> allProjects = new HashMap<Long, String>();
-        for (GHProject p : projects) {
-
-            allProjects.put(p.getId(), p.getName());
+    public Set<String> getRepositories(String organization) throws I18NException {
+        try {
+            return new TreeSet<String>(this.myOrganizations.get(organization).getRepositories().keySet());
+        } catch (Exception e) {
+            String msg = "Error obtenint repositoris de la org ]"+ organization+"[: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
         }
-        return allProjects;
+    }
+
+    public GHProject getProject(String organization, String repository, long projectID) throws I18NException {
+        try {
+        return githubConnection.getProject(projectID);
+    } catch (Exception e) {
+        String msg = "Error obtenint projecte amb ID ]"+ projectID+"[: " + e.getMessage();
+        log.error(msg, e);
+        throw new I18NException("genapp.comodi", msg);
+    }
+    }
+
+    public Map<Long, String> getProjects(String organization, String repository) throws I18NException {
+        try {
+            GHRepository repos = this.myOrganizations.get(organization).getRepositories().get(repository);
+            PagedIterable<GHProject> projectsPI = repos.listProjects();
+    
+            List<GHProject> projects = projectsPI.toList();
+    
+            Map<Long, String> allProjects = new HashMap<Long, String>();
+            for (GHProject p : projects) {
+    
+                allProjects.put(p.getId(), p.getName());
+            }
+            return allProjects;
+        } catch (Exception e) {
+            String msg = "Error obtenint projectes del repositori ]"+ organization+"/"+ repository +"[: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
+        }
     }
 
 

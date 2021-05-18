@@ -13,7 +13,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 
 
-import org.fundaciobit.githubgantt.utils.Constants;
+import org.fundaciobit.githubgantt.commons.utils.Constants;
 
 /**
  * 

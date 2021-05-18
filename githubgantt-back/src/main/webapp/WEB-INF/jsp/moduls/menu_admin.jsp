@@ -8,8 +8,8 @@
 
     <hr  style="margin-top: 6px;  margin-bottom: 6px;" />
     <li style="list-style-type: disc; list-style-position: inside;">
-      <a href="<c:url value="/admin/option1"/>">
-        <span style="${(fn:contains(url, 'option1'))? "font-weight: bold;" : ""}">Menú ADMIN Option 1</span>
+      <a href="<c:url value="/admin/gantt/list"/>">
+        <span style="${(fn:contains(url, '/admin/gantt/'))? "font-weight: bold;" : ""}">Gantts</span>
       </a>
     </li>
 

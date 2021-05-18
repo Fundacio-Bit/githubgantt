@@ -59,15 +59,15 @@ public class GitHubGanttTest {
             
             
             
-            //String organization = "Fundacio-Bit";
-            //String repository = "githubgantt";
+            String organization = "Fundacio-Bit";
+            String repository = "githubgantt";
             //long projectID = 12046952; // githubgantt-1.0.0
             int programadors = 1;
             
             
-            String organization = "GovernIB";
-            String repository = "pluginsib-scanweb()";
-            long projectID = 12166863; // pluginsib-scanweb-4.0.0 (12166863)";
+            //String organization = "GovernIB";
+            //String repository = "pluginsib-scanweb";
+            //long projectID = 12166863; // pluginsib-scanweb-4.0.0 (12166863)";
             
             //String organization = "GovernIB";
             //String repository = "carpeta";
@@ -91,10 +91,12 @@ public class GitHubGanttTest {
             
             
             
-            /*
+            
             KeyValue<Long> selectedProject = ghg.consoleProjectSelection();
             System.out.println(" Projecte Seleccionat: " + selectedProject.getValue() + " (" + selectedProject.getKey() + ")" );
-            */
+            
+            
+            if (true) return;
             
 
 //            ghg.getOrganizations();
@@ -131,7 +133,7 @@ public class GitHubGanttTest {
 //           log.info(p.getId() + " - " + p.getName() + " - " + p.getNumber());
 //           log.info("]" + p.getBody() + "[");
 
-            
+            /*
             Date startDate = new Date();
 
             Map<String, Object> parameters = ghg.generateGanttData(organization, repository, projectID, programadors,
@@ -151,7 +153,8 @@ public class GitHubGanttTest {
               fos.write(htmlOut);
               
               fos.close();
-              
+              */
+            
              
 
             System.out.println("FINAL " + (System.currentTimeMillis() - start) + " ms");

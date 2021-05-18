@@ -33,11 +33,11 @@ public class TraduccioJPA implements Traduccio {
 private static final long serialVersionUID = -326205279L;
 
   /**  */
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRADUCCIO_SEQ")
-	@Index(name="ghg_traduccio_pk_i")
-	@Column(name="traduccioid",nullable = false,length = 19)
-	long traduccioID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="TRADUCCIO_SEQ")
+    @Index(name="ghg_traduccio_pk_i")
+    @Column(name="traduccioid",nullable = false,length = 19)
+    long traduccioID;
 
 
 

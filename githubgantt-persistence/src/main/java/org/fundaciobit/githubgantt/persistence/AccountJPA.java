@@ -26,20 +26,20 @@ public class AccountJPA implements Account {
 
 private static final long serialVersionUID = 1190110862L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ACCOUNT_SEQ")
-	@Index(name="ghg_account_pk_i")
-	@Column(name="accountid",nullable = false,length = 19)
-	long accountID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="ACCOUNT_SEQ")
+    @Index(name="ghg_account_pk_i")
+    @Column(name="accountid",nullable = false,length = 19)
+    long accountID;
 
-	@Column(name="nom",nullable = false,length = 255)
-	java.lang.String nom;
+    @Column(name="nom",nullable = false,length = 255)
+    java.lang.String nom;
 
-	@Column(name="username",nullable = false,length = 255)
-	java.lang.String username;
+    @Column(name="username",nullable = false,length = 255)
+    java.lang.String username;
 
-	@Column(name="token",nullable = false,length = 255)
-	java.lang.String token;
+    @Column(name="token",nullable = false,length = 255)
+    java.lang.String token;
 
 
 
@@ -112,15 +112,15 @@ private static final long serialVersionUID = 1190110862L;
 
 // EXP  Field:accountid | Table: ghg_gantt | Type: 0  
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
-	private Set<GanttJPA> gantts = new HashSet<GanttJPA>(0);
-	public  Set<GanttJPA> getGantts() {
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "account")
+    private Set<GanttJPA> gantts = new HashSet<GanttJPA>(0);
+    public  Set<GanttJPA> getGantts() {
     return this.gantts;
   }
 
-	public void setGantts(Set<GanttJPA> gantts) {
-	  this.gantts = gantts;
-	}
+    public void setGantts(Set<GanttJPA> gantts) {
+      this.gantts = gantts;
+    }
 
 
 

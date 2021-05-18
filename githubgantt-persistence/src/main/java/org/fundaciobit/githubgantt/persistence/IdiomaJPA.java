@@ -20,19 +20,19 @@ public class IdiomaJPA implements Idioma {
 
 private static final long serialVersionUID = 1367253670L;
 
-	@Id
-	@Index(name="ghg_idioma_pk_i")
-	@Column(name="idiomaid",nullable = false,length = 5)
-	java.lang.String idiomaID;
+    @Id
+    @Index(name="ghg_idioma_pk_i")
+    @Column(name="idiomaid",nullable = false,length = 5)
+    java.lang.String idiomaID;
 
-	@Column(name="nom",nullable = false,length = 50)
-	java.lang.String nom;
+    @Column(name="nom",nullable = false,length = 50)
+    java.lang.String nom;
 
-	@Column(name="suportat",nullable = false,length = 1)
-	boolean suportat;
+    @Column(name="suportat",nullable = false,length = 1)
+    boolean suportat;
 
-	@Column(name="ordre",nullable = false,length = 10)
-	int ordre;
+    @Column(name="ordre",nullable = false,length = 10)
+    int ordre;
 
 
 

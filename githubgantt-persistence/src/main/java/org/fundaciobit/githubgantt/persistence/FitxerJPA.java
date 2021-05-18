@@ -22,23 +22,23 @@ public class FitxerJPA implements Fitxer {
 
 private static final long serialVersionUID = -252813913L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FITXER_SEQ")
-	@Index(name="ghg_fitxer_pk_i")
-	@Column(name="fitxerid",nullable = false,length = 19)
-	long fitxerID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="FITXER_SEQ")
+    @Index(name="ghg_fitxer_pk_i")
+    @Column(name="fitxerid",nullable = false,length = 19)
+    long fitxerID;
 
-	@Column(name="nom",nullable = false,length = 255)
-	java.lang.String nom;
+    @Column(name="nom",nullable = false,length = 255)
+    java.lang.String nom;
 
-	@Column(name="mime",nullable = false,length = 255)
-	java.lang.String mime;
+    @Column(name="mime",nullable = false,length = 255)
+    java.lang.String mime;
 
-	@Column(name="tamany",nullable = false,length = 19)
-	long tamany;
+    @Column(name="tamany",nullable = false,length = 19)
+    long tamany;
 
-	@Column(name="descripcio",length = 1000)
-	java.lang.String descripcio;
+    @Column(name="descripcio",length = 1000)
+    java.lang.String descripcio;
 
 
 

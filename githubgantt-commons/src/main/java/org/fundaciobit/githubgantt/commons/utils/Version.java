@@ -1,4 +1,4 @@
-package org.fundaciobit.githubgantt.utils;
+package org.fundaciobit.githubgantt.commons.utils;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;

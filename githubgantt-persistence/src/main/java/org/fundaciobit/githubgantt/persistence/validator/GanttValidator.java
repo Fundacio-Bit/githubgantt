@@ -81,33 +81,11 @@ public class GanttValidator<I extends Gantt>
       }
     }
 
-    if (__vr.getFieldErrorCount(ORGANIZATION) == 0) {
-      String val = __target__.getOrganization();
-      if (val != null && val.trim().length() != 0) {
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile("(1|2|3)");
-        if (!p.matcher(val).matches()) {
-          __vr.rejectValue(ORGANIZATION, "genapp.validation.malformed",
-             new org.fundaciobit.genapp.common.i18n.I18NArgumentString(val), new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(ORGANIZATION)));
-        }
-      }
-    }
-
     if (__vr.getFieldErrorCount(REPOSITORY) == 0) {
       java.lang.String __repository = __target__.getRepository();
       if (__repository!= null && __repository.length() > 255) {
         __vr.rejectValue(REPOSITORY, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(REPOSITORY)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(REPOSITORY) == 0) {
-      String val = __target__.getRepository();
-      if (val != null && val.trim().length() != 0) {
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile("(1|2|3)");
-        if (!p.matcher(val).matches()) {
-          __vr.rejectValue(REPOSITORY, "genapp.validation.malformed",
-             new org.fundaciobit.genapp.common.i18n.I18NArgumentString(val), new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(REPOSITORY)));
-        }
       }
     }
 
@@ -124,17 +102,6 @@ public class GanttValidator<I extends Gantt>
       if (__project!= null && __project.length() > 255) {
         __vr.rejectValue(PROJECT, "genapp.validation.sizeexceeds",
             new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROJECT)), new org.fundaciobit.genapp.common.i18n.I18NArgumentString(String.valueOf(255)));
-      }
-    }
-
-    if (__vr.getFieldErrorCount(PROJECT) == 0) {
-      String val = __target__.getProject();
-      if (val != null && val.trim().length() != 0) {
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile("(1|2|3)");
-        if (!p.matcher(val).matches()) {
-          __vr.rejectValue(PROJECT, "genapp.validation.malformed",
-             new org.fundaciobit.genapp.common.i18n.I18NArgumentString(val), new org.fundaciobit.genapp.common.i18n.I18NArgumentCode(get(PROJECT)));
-        }
       }
     }
 

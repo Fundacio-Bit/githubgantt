@@ -20,25 +20,25 @@ public final class GithubGanttJPADaoManagers implements IGithubGanttDaoManagers{
     this.ghg_traduccio = new TraduccioJPAManager(__em);
   }
 
-	public IAccountManager getAccountManager() {
-	  return this.ghg_account;
-	};
+    public IAccountManager getAccountManager() {
+        return this.ghg_account;
+    };
 
-	public IFitxerManager getFitxerManager() {
-	  return this.ghg_fitxer;
-	};
+    public IFitxerManager getFitxerManager() {
+        return this.ghg_fitxer;
+    };
 
-	public IGanttManager getGanttManager() {
-	  return this.ghg_gantt;
-	};
+    public IGanttManager getGanttManager() {
+        return this.ghg_gantt;
+    };
 
-	public IIdiomaManager getIdiomaManager() {
-	  return this.ghg_idioma;
-	};
+    public IIdiomaManager getIdiomaManager() {
+        return this.ghg_idioma;
+    };
 
-	public ITraduccioManager getTraduccioManager() {
-	  return this.ghg_traduccio;
-	};
+    public ITraduccioManager getTraduccioManager() {
+        return this.ghg_traduccio;
+    };
 
 
 }

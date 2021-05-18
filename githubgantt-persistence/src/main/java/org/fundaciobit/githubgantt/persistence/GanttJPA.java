@@ -26,36 +26,36 @@ public class GanttJPA implements Gantt {
 
 private static final long serialVersionUID = -1661109497L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GANTT_SEQ")
-	@Index(name="ghg_gantt_pk_i")
-	@Column(name="ganttid",nullable = false,length = 19)
-	long ganttID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="GANTT_SEQ")
+    @Index(name="ghg_gantt_pk_i")
+    @Column(name="ganttid",nullable = false,length = 19)
+    long ganttID;
 
-	@Column(name="nom",nullable = false,length = 255)
-	java.lang.String nom;
+    @Column(name="nom",nullable = false,length = 255)
+    java.lang.String nom;
 
-	@Index(name="ghg_gantt_accountid_fk_i")
-	@Column(name="accountid",nullable = false,length = 19)
-	long accountID;
+    @Index(name="ghg_gantt_accountid_fk_i")
+    @Column(name="accountid",nullable = false,length = 19)
+    long accountID;
 
-	@Column(name="organization",nullable = false,length = 255)
-	java.lang.String organization;
+    @Column(name="organization",nullable = false,length = 255)
+    java.lang.String organization;
 
-	@Column(name="repository",nullable = false,length = 255)
-	java.lang.String repository;
+    @Column(name="repository",nullable = false,length = 255)
+    java.lang.String repository;
 
-	@Column(name="projectnom",nullable = false,length = 255)
-	java.lang.String projectNom;
+    @Column(name="projectnom",nullable = false,length = 255)
+    java.lang.String projectNom;
 
-	@Column(name="project",nullable = false,length = 255)
-	java.lang.String project;
+    @Column(name="project",nullable = false,length = 255)
+    java.lang.String project;
 
-	@Column(name="startdate",nullable = false,length = 29,precision = 6)
-	java.sql.Timestamp startDate;
+    @Column(name="startdate",nullable = false,length = 29,precision = 6)
+    java.sql.Timestamp startDate;
 
-	@Column(name="numeroprogramadors",nullable = false,length = 10)
-	int numeroProgramadors;
+    @Column(name="numeroprogramadors",nullable = false,length = 10)
+    int numeroProgramadors;
 
 
 
@@ -178,16 +178,16 @@ private static final long serialVersionUID = -1661109497L;
 
 // IMP Field:accountid | Table: ghg_account | Type: 1  
 
-	@ManyToOne(fetch = FetchType.LAZY)
-	@ForeignKey(name="ghg_gantt_account_aco_fk")
-	@JoinColumn(name = "accountid", referencedColumnName ="accountID", nullable = false, insertable=false, updatable=false)
-	private AccountJPA account;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @ForeignKey(name="ghg_gantt_account_aco_fk")
+    @JoinColumn(name = "accountid", referencedColumnName ="accountID", nullable = false, insertable=false, updatable=false)
+    private AccountJPA account;
 
-	public AccountJPA getAccount() {
+    public AccountJPA getAccount() {
     return this.account;
   }
 
-	public  void setAccount(AccountJPA account) {
+    public  void setAccount(AccountJPA account) {
     this.account = account;
   }
 

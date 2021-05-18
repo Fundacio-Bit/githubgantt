@@ -30,7 +30,7 @@
 			</div>
 
 			<div>
-				<h1 class="titol"><%=org.fundaciobit.githubgantt.utils.StaticVersion.PROJECT_NAME%></h1>
+				<h1 class="titol"><%=org.fundaciobit.githubgantt.commons.utils.StaticVersion.PROJECT_NAME%></h1>
 			</div>
 			<div>
 				<div>
