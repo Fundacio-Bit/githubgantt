@@ -140,7 +140,40 @@ public class GitHubGantt {
             throw new I18NException("genapp.comodi", msg);
         }
     }
+    
+    
+    
+    public GHRepository getRepository(String organization, String repository) throws I18NException {
+        try {
+            GHRepository repos = this.myOrganizations.get(organization).getRepositories().get(repository);
+            
+            return repos;
 
+        } catch (Exception e) {
+            String msg = "Error obtenint labels del repositori ]"+ organization+"/"+ repository +"[: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
+        }
+        
+    }
+    
+    public List<GHLabel> getLabels(String organization, String repository) throws I18NException {
+        
+        try {
+            GHRepository repos = this.myOrganizations.get(organization).getRepositories().get(repository);
+
+            PagedIterable<GHLabel>  labels =  repos.listLabels();
+
+            
+            return labels.toList();
+        
+        } catch (Exception e) {
+            String msg = "Error obtenint labels del repositori ]"+ organization+"/"+ repository +"[: " + e.getMessage();
+            log.error(msg, e);
+            throw new I18NException("genapp.comodi", msg);
+        }
+        
+    }
 
 
     public KeyValue<Long> consoleProjectSelection() throws Exception  {

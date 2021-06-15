@@ -1,6 +1,9 @@
 package org.fundaciobit.githubgantt.back.controller.admin;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -8,11 +11,14 @@ import java.util.Set;
 
 import javax.ejb.EJB;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.fundaciobit.genapp.common.StringKeyValue;
 import org.fundaciobit.genapp.common.i18n.I18NException;
 import org.fundaciobit.genapp.common.query.Field;
 import org.fundaciobit.genapp.common.query.Where;
+import org.fundaciobit.genapp.common.web.HtmlUtils;
+import org.fundaciobit.genapp.common.web.form.AdditionalButton;
 import org.fundaciobit.genapp.common.web.i18n.I18NUtils;
 import org.fundaciobit.githubgantt.back.controller.webdb.GanttController;
 import org.fundaciobit.githubgantt.back.form.webdb.GanttFilterForm;
@@ -24,17 +30,22 @@ import org.fundaciobit.githubgantt.model.entity.Account;
 import org.fundaciobit.githubgantt.model.entity.Gantt;
 import org.fundaciobit.githubgantt.model.fields.GanttFields;
 import org.fundaciobit.githubgantt.persistence.GanttJPA;
+import org.kohsuke.github.GHIssue;
+import org.kohsuke.github.GHLabel;
 import org.kohsuke.github.GHProject;
+import org.kohsuke.github.GHRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ValidationUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 
+ *
  * @author anadal
  *
  */
@@ -88,16 +99,59 @@ public class GanttAdminController extends GanttController {
             throws I18NException {
         GanttFilterForm ganttFilterForm = super.getGanttFilterForm(pagina, mav, request);
 
-        Set<Field<?>> hiddens = new HashSet<Field<?>>(Arrays.asList(GanttFields.ALL_GANTT_FIELDS));
+        if (ganttFilterForm.isNou()) {
 
-        hiddens.remove(NOM);
-        hiddens.remove(PROJECTNOM);
+            Set<Field<?>> hiddens = new HashSet<Field<?>>(Arrays.asList(GanttFields.ALL_GANTT_FIELDS));
 
-        ganttFilterForm.setHiddenFields(hiddens);
+            hiddens.remove(NOM);
+            hiddens.remove(PROJECTNOM);
 
-        //ganttFilterForm.setEditButtonVisible(false);
+            ganttFilterForm.setHiddenFields(hiddens);
+
+            ganttFilterForm.addAdditionalButtonForEachItem(new AdditionalButton("fas fa-check-square",
+                    "Normalitzar Labels", getContextWeb() + "/normalitzarlabels/{0}", "btn-warning"));
+
+        }
+
+        // ganttFilterForm.setEditButtonVisible(false);
 
         return ganttFilterForm;
+    }
+
+    /**
+     * 
+     * @param request
+     * @param response
+     * @param ganttID
+     * @return
+     */
+    @RequestMapping(value = "/normalitzarlabels/{ganttID}", method = RequestMethod.GET)
+    public String normalitzarLabels(HttpServletRequest request, HttpServletResponse response,
+            @PathVariable Long ganttID) {
+
+        try {
+
+            Gantt gantt = ganttEjb.findByPrimaryKey(ganttID);
+            Account account = accountEjb.findByPrimaryKey(gantt.getAccountID());
+
+            String login_username = account.getUsername();
+            String login_password = account.getToken();
+            String organitzacio = gantt.getOrganization();
+            String repository = gantt.getRepository();
+
+            adaptarLabels(login_username, login_password, organitzacio, repository);
+
+            HtmlUtils.saveMessageError(request, "Normalitzades les Labes i les Labels dels Issues");
+
+        } catch (Throwable e) {
+            String msg = "Error normalitzant: " + e.getMessage();
+            log.error(msg, e);
+
+            HtmlUtils.saveMessageError(request, msg);
+
+        }
+
+        return "redirect:" + getContextWeb() + "/list";
     }
 
     @Override
@@ -133,9 +187,8 @@ public class GanttAdminController extends GanttController {
     public void postValidate(HttpServletRequest request, GanttForm ganttForm, BindingResult result)
             throws I18NException {
 
-        
         log.info(" POST VALIDATE :: " + ganttForm.isNou());
-        
+
         log.info(" POST VALIDATE :: ganttForm.getGantt().getAccountID()  ===>  " + ganttForm.getGantt().getAccountID());
 
         Set<Field<?>> hiddens = new HashSet<Field<?>>(Arrays.asList(GanttFields.ALL_GANTT_FIELDS));
@@ -239,16 +292,16 @@ public class GanttAdminController extends GanttController {
                  * projects.get(String.valueOf(gantt.getProject()));
                  */
                 if (gantt.getProjectNom() == null) {
-                            String projectNom = proj.getName();
-                  gantt.setProjectNom(projectNom);
-                  log.info(" XXXXXXXXXXXXXXXXXXXXX  gantt.getProject() projectNom ===> " + projectNom);
+                    String projectNom = proj.getName();
+                    gantt.setProjectNom(projectNom);
+                    log.info(" XXXXXXXXXXXXXXXXXXXXX  gantt.getProject() projectNom ===> " + projectNom);
                 }
-                
+
                 if (gantt.getNom() == null) {
 
-                  gantt.setNom(gantt.getOrganization() + "::" + gantt.getRepository() + "::" + gantt.getProjectNom());
+                    gantt.setNom(gantt.getOrganization() + "::" + gantt.getRepository() + "::" + gantt.getProjectNom());
 
-                  log.info(" XXXXXXXXXXXXXXXXXXXXX  gantt.getProject() Nom ===> " + gantt.getNom());
+                    log.info(" XXXXXXXXXXXXXXXXXXXXX  gantt.getProject() Nom ===> " + gantt.getNom());
                 }
             }
 
@@ -373,6 +426,145 @@ public class GanttAdminController extends GanttController {
             return __tmp;
         }
 
+    }
+
+    public void adaptarLabels(String login_username, String login_password, String organitzacio, String repository)
+            throws Exception {
+
+        GitHubGantt client = new GitHubGantt(login_username, login_password);
+
+        GHRepository repos = client.getRepository(organitzacio, repository);
+
+        List<GHLabel> labels = repos.listLabels().asList();
+
+        // 0.- Substiruir "help wanted" per "helpwanted"
+
+
+        // 1.- Convertir
+
+        final String[][] labelsToReplace = { { "bug", "Tipus:Error", "fc2929" },
+                { "enhancement", "Tipus:Millora", "84b6eb" }, { "help wanted", "Tipus:Consulta", "159818" },
+                { "question", "Tipus:Consulta", "cc317c" }, { "duplicate", "Resolucio:Duplicada", "cccccc" },
+                { "invalid", "Resolucio:Invalida", "e6e6e6" }, { "wontfix", "Resolucio:NoSolucionada", "ffffff" },
+                { "documentation", "Tipus:Documentacio", "bfdadc" },
+                { "good first issue", "Prioritat:Molt_Alta", "fc2929" } };
+
+        Set<String> labelNames = new HashSet<String>();
+
+        for (GHLabel label : labels) {
+            System.out.println(label.getName() + "    -    " + label.getUrl());
+
+            // Replace Labels
+            for (int i = 0; i < labelsToReplace.length; i++) {
+                final String labelFromStr = labelsToReplace[i][0];
+
+                if (labelFromStr.equals(label.getName())) {
+
+                    final String labelTo = labelsToReplace[i][1];
+                    final String labelToColor = labelsToReplace[i][2];
+                    replaceLabel(repos, labelFromStr, labelTo, labelToColor);
+
+                    labelNames.add(labelTo);
+
+                } else {
+                    labelNames.add(label.getName());
+                }
+
+            }
+
+        }
+
+        System.out.flush();
+
+        // 2.- Afegir Noves Etiquetes
+        final String[][] newlabels = {
+
+                { "Estimació: EPIC", "5319e7" }, { "Estimació: 0.5D", "5319e7" }, { "Estimació: 1D", "5319e7" },
+                { "Estimació: 2D", "5319e7" }, { "Estimació: 3D", "5319e7" }, { "Estimació: 4D", "5319e7" },
+                { "Estimació: 5D", "5319e7" },
+
+                { "CAIB", "d93f0b" }, { "Pendent tercer", "ffff00" },
+
+                { "Tipus:Analisi_Disseny", "fef2c0" }, { "Tipus:BBDD", "bfd4f2" },
+                { "Tipus:Compilacio_Construccio", "d4c5f9" }, { "Tipus:Configuracio", "bfd4f2" },
+                { "Tipus:Consulta", "c5def5" }, { "Tipus:Documentacio", "bfdadc" }, { "Tipus:Error", "e99695" },
+                { "Tipus:Nova_Funcionalitat", "c2e0c6" }, { "Tipus:Refactoritzacio", "006b75" },
+                { "Tipus:Millora", "f9d0c4" },
+                // {"Versio:unplanned", "000000"},
+                // {"Versio:x.y.z", "000000"},
+                { "Prioritat:Immediata", "ff0000" }, { "Prioritat:Molt_Alta", "fc2929" },
+                { "Prioritat:Alta", "d93f0b" }, { "Prioritat:Normal", "fbca04" }, { "Prioritat:Baixa", "0e8a16" },
+                { "Prioritat:Molt_Baixa", "1d76db" }, { "Lloc:General", "fef2c0" }, { "Lloc:Core", "fc2929" },
+                { "Lloc:EJB", "d93f0b" }, { "Lloc:Test", "fbca04" }, { "Lloc:Web", "0e8a16" },
+                { "Lloc:WebServices", "1d76db" }, { "Lloc:Plugin", "c5def5" }, { "Resolucio:Duplicada", "cccccc" },
+                { "Resolucio:Invalida", "e6e6e6" }, { "Resolucio:NoSolucionada", "ffffff" }
+
+        };
+
+        for (int i = 0; i < newlabels.length; i++) {
+            if (!labelNames.contains(newlabels[i][0])) {
+
+                System.out.println(" Creant Label " + newlabels[i][0]);
+                System.out.flush();
+                Thread.sleep(250);
+
+                repos.createLabel(newlabels[i][0], newlabels[i][1], "");
+                System.out.println(" Creada Label " + newlabels[i][0]);
+            }
+        }
+
+    }
+
+    protected void replaceLabel(GHRepository repos, final String labelFrom, final String labelTo,
+            final String labelToColor) throws IOException {
+
+        System.out.println(" ---- replace Label " + labelFrom + " for " + labelTo);
+
+        // Existeix la Label de destí ?
+        GHLabel tipus_error_label = null;
+        try {
+            tipus_error_label = repos.getLabel(labelTo);
+        } catch (Exception rq) {
+            log.error("Error lleging label amb nom ]" + labelTo + "[");
+        }
+
+        if (tipus_error_label == null) {
+            tipus_error_label = repos.createLabel(labelTo, labelToColor, "");
+        }
+
+        List<GHIssue> allIssues = repos.getIssues(null);
+        List<GHIssue> issuesWithLabel = new ArrayList<GHIssue>();
+        for (GHIssue ghIssue : allIssues) {
+            Collection<GHLabel> labelsOfIssue = ghIssue.getLabels();
+
+            for (GHLabel loi : labelsOfIssue) {
+                if (loi.getName().equals(labelFrom)) {
+                    issuesWithLabel.add(ghIssue);
+                    break;
+                }
+            }
+        }
+
+//      Cercar Issues amb aquest Label
+//      Map<String, String> filter = new HashMap<String, String>();
+//      filter.put(IssueService.FILTER_LABELS, labelFrom);
+//      List<Issue> issues = issueService.getIssues(loginUser, repository, filter);
+
+        System.out.println("ISSUE SIZE [" + labelFrom + "] = " + issuesWithLabel.size());
+        for (GHIssue issue : issuesWithLabel) {
+            System.out.println(issue.getTitle());
+            Collection<GHLabel> labelsIssue = new ArrayList<GHLabel>(issue.getLabels());
+            labelsIssue.add(tipus_error_label);
+
+            issue.addLabels(labelsIssue);
+
+            // labelService.setLabels(loginUser, repository,
+            // String.valueOf(issue.getNumber()), labelsIssue);
+
+        }
+
+        // Eliminar Label Antiga
+        repos.getLabel(labelFrom).delete();
     }
 
     /*
